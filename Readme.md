@@ -39,3 +39,12 @@ By setting the additional property `copyEntryPoint` to 1, the file `typo3cms` wi
 ```
     - typo3-console: {copyEntryPoint:1, command: "database:updateschema '*.add,*.change,*.clear'"}
 ```
+
+### ClearOpCache
+
+If an OPcache is used, it needs to be cleared via http and not via SSH. Therefore you need to define the URL of your project
+
+```
+  post-release:
+    - clear-op-cache: {frontend-url: 'http://www.example.org'}
+```
