@@ -35,7 +35,7 @@ class ClearOpCache extends AbstractTask
         $file = rtrim($this->getConfig()->deployment('document-root'), '/') . $clearFile;
 
         // Create file
-        $code = '<?php opcache_reset();';
+        $code = '<?php opcache_reset(); @unlink(__FILE__);';
         $command = sprintf('echo \'%s\' > %s', $code, $file);
         $this->runCommandRemote($command, $output, false);
 
@@ -45,7 +45,7 @@ class ClearOpCache extends AbstractTask
         $this->runCommandRemote($command, $output, false);
 
         // Remove file
-        $command = sprintf('rm %s', $file);
+        $command = sprintf('rm -f %s', $file);
         $this->runCommandRemote($command, $output, false);
 
         return true;
