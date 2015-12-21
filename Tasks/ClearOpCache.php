@@ -18,7 +18,6 @@ use Mage\Console;
 use Mage\Task\AbstractTask;
 use Mage\Task\ErrorWithMessageException;
 
-
 /**
  * Clear OP cache
  */

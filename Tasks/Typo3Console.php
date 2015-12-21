@@ -31,13 +31,19 @@ class Typo3Console extends AbstractTask
     public function run()
     {
         if ($this->getParameter('copyEntryPoint')) {
-            $command = sprintf('cd %s && cp typo3conf/ext/typo3_console/Scripts/typo3cms .', $this->getConfig()->deployment('document-root'));
+            $command = sprintf(
+                'cd %s && cp typo3conf/ext/typo3_console/Scripts/typo3cms .',
+                $this->getConfig()->deployment('document-root')
+            );
             $this->runCommandRemote($command, $output, false);
         }
 
         $command = $this->getParameter('command');
+
         if (empty($command)) {
-            throw new ErrorWithMessageException('No command given! Use something like "typo3-console: {command: backend:lock}" ');
+            throw new ErrorWithMessageException(
+                'No command given! Use something like "typo3-console: {command: backend:lock}" '
+            );
         }
 
 
