@@ -40,7 +40,8 @@ class ClearOpCache extends AbstractTask
         $this->runCommandRemote($command, $output, false);
 
         // Call file
-        $command = 'curl -k -s ' . escapeshellarg($url . $clearFile);
+        $command = $this->getParameter('callCommand', 'curl -k -s %s');
+        $command = sprintf($command, escapeshellarg($url . $clearFile));
         $this->runCommandRemote($command, $output, false);
 
         // Remove file
