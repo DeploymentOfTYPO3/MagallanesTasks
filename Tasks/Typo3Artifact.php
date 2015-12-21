@@ -30,7 +30,13 @@ class Typo3Artifact extends AbstractTask
     public function run()
     {
         $toPath = $this->getConfig()->deployment('from');
-        $srcPath = $toPath . '/../..';
+        $src    = $this->getConfig()->deployment('src');
+
+        if (is_string($src) && is_dir($src)) {
+            $srcPath = $src;
+        } else {
+            $srcPath = $toPath . '/../..';
+        }
 
         if (!is_dir($toPath)) {
             mkdir($toPath, 0777, true);
