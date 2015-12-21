@@ -46,8 +46,13 @@ class Typo3Console extends AbstractTask
             );
         }
 
+        $command = sprintf(
+            'cd %s && %s ./typo3cms %s',
+            $this->getConfig()->deployment('document-root'),
+            $this->getParameter('php', ''),
+            $command
+        );
 
-        $command = sprintf('cd %s && ./typo3cms %s', $this->getConfig()->deployment('document-root'), $command);
         $response = $this->runCommandRemote($command, $output, false);
         Console::output('Result of console call: ' . $response);
 
