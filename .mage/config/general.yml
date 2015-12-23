@@ -1,0 +1,21 @@
+#
+# This are global settings that do not change for individual environments
+#
+
+## Name of the deployment
+name: TYPO3 Magallanes Deployment
+
+## Send email notifications
+notifications: false
+
+## If the previous is set to true, notifications will be sent to this address
+email: typo3@cyberhouse.at
+
+## Enable logging
+logging: true
+
+## Number of logs
+maxlogs: 1
+
+## If SSH communication with the remote, should open a tty. Usually you won't need this
+ssh_needs_tty: false

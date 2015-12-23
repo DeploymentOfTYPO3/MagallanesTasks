@@ -1,0 +1,79 @@
+# A demo deployment
+
+# The basic
+deployment:
+  # Strategy to use, rsync is recommended, but others work as well
+  strategy: rsync
+
+  # From where the "typo3-artifact" task will get its data
+  src: .
+
+  # From where magallanes should take its deployment files
+  from: ./.mage/artifact/
+
+# Enable releases
+releases:
+  enabled: true
+  max: 5
+  symlink: current
+  directory: releases
+
+# Hosts to deploy to
+hosts:
+  # Domain or IP of the target host
+  "typo3.host.tld":
+      deployment:
+        # CLI User to connect with. It's recommended to have RSA keys properly set up.
+        # Otherwise, use the "password" property to use a password based login
+        user: dev
+        to: /var/www/deploy
+        document-root: /var/www/html
+
+# Tasks to execute on each stage
+tasks:
+
+  # Before the actual deployment
+  pre-deploy:
+    # Create the artifact to be deployed
+    - typo3-artifact:
+        excludes:
+          # Ignore TYPO3 installation files
+          - /bin
+          - /deployment
+          - /fileadmin
+          - /typo3
+          - /typo3temp
+          - /uploads
+          - composer.lock
+          - /composer.json
+          - /index.php
+          - typo3conf/LocalConfiguration.php
+          # Ignore common development files
+          - atlassian-ide-plugin.xml
+          - .editorconfig
+          - .git*
+          - .idea
+          - .mage
+          - .vagrant
+          - bower_components
+          - node_modules
+          - Vagrantfile
+          - .php_cs
+          - .php_cs.cache
+          - ruleset.xml
+    # Set correct file rights
+    - change-mode: {directory: ['typo3_src', 'typo3conf']}
+    - executable:
+        files:
+          - typo3conf/ext/typo3_console/Scripts/typo3cms
+          - typo3_src/typo3/cli_dispatch.phpsh
+  on-deploy:
+  # After deployemnt, on the remote
+  post-release:
+    # Migrate the database
+    - typo3-console: {copyEntryPoint: true, command: 'database:updateschema "*.add,*.change,*.clear"'}
+    # Flush all caches
+    - typo3-console: {command: 'cache:flush'}
+    # Clear the opcache
+    - clear-op-cache: {frontend-url: 'http://typo3.frontend.url'}
+  post-deploy:
