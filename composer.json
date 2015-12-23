@@ -4,10 +4,9 @@
   "require": {
     "andres-montanez/magallanes": "1.0.*"
   },
-
   "autoload": {
-    "classmap": [
-      "Tasks/"
-    ]
+    "psr-4": {
+      "Task\\": "Tasks/"
+    }
   }
 }
