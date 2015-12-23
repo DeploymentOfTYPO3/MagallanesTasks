@@ -18,7 +18,6 @@ use Mage\Console;
 use Mage\Task\AbstractTask;
 use Mage\Task\ErrorWithMessageException;
 
-
 /**
  * Clear OP cache
  */
@@ -36,16 +35,17 @@ class ClearOpCache extends AbstractTask
         $file = rtrim($this->getConfig()->deployment('document-root'), '/') . $clearFile;
 
         // Create file
-        $code = '<?php opcache_reset();';
+        $code = '<?php opcache_reset(); @unlink(__FILE__);';
         $command = sprintf('echo \'%s\' > %s', $code, $file);
         $this->runCommandRemote($command, $output, false);
 
         // Call file
-        $command = 'curl -k -s ' . escapeshellarg($url . $clearFile);
+        $command = $this->getParameter('callCommand', 'curl -k -s %s');
+        $command = sprintf($command, escapeshellarg($url . $clearFile));
         $this->runCommandRemote($command, $output, false);
 
         // Remove file
-        $command = sprintf('rm %s', $file);
+        $command = sprintf('rm -f %s', $file);
         $this->runCommandRemote($command, $output, false);
 
         return true;
