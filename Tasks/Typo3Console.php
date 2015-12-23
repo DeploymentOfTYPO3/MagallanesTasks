@@ -54,7 +54,7 @@ class Typo3Console extends AbstractTask
         );
 
         $response = $this->runCommandRemote($command, $output, false);
-        Console::output('Result of console call: ' . $response);
+        Console::log('Result of console call: ' . $response);
 
         return true;
     }
