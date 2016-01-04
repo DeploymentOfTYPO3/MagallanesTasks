@@ -55,46 +55,4 @@ If an OPcache is used, it needs to be cleared via http and not via SSH. Therefor
 
 ## Full example
 
-```
-#dev
-deployment:
-  strategy: rsync
-  user: root
-  from: ./.mage/artifact/
-  to: /var/www/deploy
-  document-root: /var/www/html
-releases:
-  enabled: true
-  max: 5
-  symlink: current
-  directory: releases
-hosts:
-  - "your-website.at"
-tasks:
-  pre-deploy:
-    - typo3-artifact:
-        excludes:
-          - /deployment
-          - /fileadmin
-          - /typo3
-          - /typo3temp
-          - /uploads
-          - composer.lock
-          - /composer.json
-          - /index.php
-          - typo3conf/LocalConfiguration.php
-          - atlassian-ide-plugin.xml
-          - .editorconfig
-          - .git*
-          - .idea
-          - .mage
-          - .vagrant
-          - bower_components
-          - node_modules
-          - Vagrantfile
-  on-deploy:
-  post-release:
-    - typo3-release:
-    - clear-op-cache: {frontend-url: 'https://your-website.at'}
-  post-deploy:
-```
+A full example can be found in ``.mage/config/environment/dev.yml``.
