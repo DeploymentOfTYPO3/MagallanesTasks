@@ -9,7 +9,7 @@ name: TYPO3 Magallanes Deployment
 notifications: false
 
 ## If the previous is set to true, notifications will be sent to this address
-email: typo3@cyberhouse.at
+email: typo3@example.org
 
 ## Enable logging
 logging: true
