@@ -59,10 +59,14 @@ class Executable extends AbstractTask
             $files = escapeshellarg($files);
         }
 
-        $response = $this->runCommand('chmod -f ugo+x ' . $files, $output);
+        $this->runCommand('chmod -f ugo+x ' . $files, $output);
 
         Console::log('Result of console call: ' . $output);
 
-        return $response;
+        if (trim($output) !== '') {
+            throw new ErrorWithMessageException($output);
+        }
+
+        return true;
     }
 }
