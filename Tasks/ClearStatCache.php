@@ -21,7 +21,7 @@ use Mage\Task\ErrorWithMessageException;
 /**
  * Clear OP cache
  */
-class ClearClearStatCache extends AbstractTask
+class ClearStatCache extends AbstractTask
 {
     public function getName()
     {
