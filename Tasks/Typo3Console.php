@@ -46,8 +46,13 @@ class Typo3Console extends AbstractTask
             );
         }
 
+        $environmentCommand = '';
+        if ($env = $this->getConfig()->deployment('typo3-context')) {
+            $environmentCommand = 'export TYPO3_CONTEXT="' . $env . '" && ';
+        }
+
         $command = sprintf(
-            'cd %s && %s ./typo3cms %s',
+            $environmentCommand . 'cd %s && %s ./typo3cms %s',
             $this->getConfig()->deployment('document-root'),
             $this->getParameter('php', ''),
             $command

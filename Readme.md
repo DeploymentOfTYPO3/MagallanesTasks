@@ -26,6 +26,10 @@ This task is a wrapper for the TYPO3 CMS extension "typo3_console" which can be 
 A typical call cna look like that: 
 
 ```
+deployment:
+  ...
+  typo3-context: Staging
+  ...
 tasks:
   ...
   post-release:
